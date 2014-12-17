@@ -23,40 +23,45 @@ grid = [
  [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ]
 
+def product(array)
+  array.reduce(1, :*)
+end
+
 def greatest_product_in_grid(n, array)
+
   x = 0
   y = 0
   max = 0
   solution = []
-  while y > (array.length - 1)
-    while x < (array[0].length - 1)
-    node = [x,y]
-    vert = check_vertical(n, node, array)
-    horiz = check_horizontal(n, node, array)
-    asc = check_asc_diag(n, node, array)
-    desc = check_desc_diag(n, node, array)
-    if vert[0] > max
-      vert = solution
-    end
-    if horiz[0] > max
-      horiz = solution
-    end
-    if asc[0] > max
-      asc = solution
-    end
-    if desc[0] > max
-      desc = solution
-    end
-    x += 1
+  while y < (array.length - 1)
+    while x < (array[y].length - 1)
+      node = [x,y]
+      vert = check_vertical(n, node, array)
+      # horiz = check_horizontal(n, node, array)
+      #asc = check_asc_diag(n, node, array)
+      #desc = check_desc_diag(n, node, array)
+
+      if vert[0] > max
+        solution = vert
+      end
+      # if horiz[0] > max
+      #   horiz = solution
+      # end
+      # if asc[0] > max
+      #   asc = solution
+      # end
+      # if desc[0] > max
+      #   desc = solution
+      # end
+      x += 1
     end
     y += 1
   end
-  products
+  solution
 end
 
 def check_vertical(n, node, array)
   #returns greatest product, node, and four multiplicands
-
   #1 Set up and assignment of dummies
   x = node[0]
   y = node[1]
@@ -68,27 +73,28 @@ def check_vertical(n, node, array)
   y2 = y
   y3 = y
   y4 = y
+  #2 Missing nodes up
+  binding.pry
 
-  #2 Missing nodes on one side
-  if y1 <= (n-2)
+  if y1 < (n-1)
     multiplicands_up << array[y1][x]
-    while multiplicands_up.length != 4
-      y1 -= 1
+    while multiplicands_up.length < 4
+      y1 += 1
       multiplicands_up << array[y1][x]
+
     end
+
     greatest_product = product(multiplicands_up) if product(multiplicands_up) >= greatest_product
     greatest_product_multiplicands = multiplicands_up if product(multiplicands_up) >= greatest_product
-
-  #3 Missing notes on another side
+  #3 Missing notes up
   elsif y2 >= array.length - (n-1)
     multiplicands_down << array[y2][x]
     while multiplicands_down.length != 4
       y2 += 1
-      multiplicands.down << array[y2][x]
+      multiplicands_down << array[y2][x]
     end
     greatest_product = product(multiplicands_down) if product(multiplicands_down) >= greatest_product
     greatest_product_multiplicands = multiplicands_down if product(multiplicands_down) >= greatest_product
-
   #4 Nodes available on both sides
   else
     multiplicands_up << array[y3][x]
@@ -106,21 +112,60 @@ def check_vertical(n, node, array)
     greatest_product = product(multiplicands_down) if product(multiplicands_down) >= greatest_product
     greatest_product_multiplicands = multiplicands_down if product(multiplicands_down) >= greatest_product
   end
-
   # Return desired data
   [greatest_product, node, greatest_product_multiplicands]
-
-
 end
 
-def product(array)
-  array.reduce(1, :*)
-end
-
-
-def check_horizontal(n, node, array)
-
-end
+# def check_horizontal(n, node, array)
+#   #1 Set up and assignment of dummies
+#   x = node[0]
+#   y = node[1]
+#   greatest_product = 0
+#   greatest_product_multiplicands = []
+#   multiplicands_left = []
+#   multiplicands_right = []
+#   x1 = x
+#   x2 = x
+#   x3 = x
+#   x4 = x
+#   #2 Missing nodes on left
+#   if x1 <= (n-2)
+#     multiplicands_right << array[y][x1]
+#     while multiplicands_right.length != 4
+#       x1 += 1
+#       multiplicands_right << array[y][x1]
+#     end
+#     greatest_product = product(multiplicands_right) if product(multiplicands_right) >= greatest_product
+#     greatest_product_multiplicands = multiplicands_right if product(multiplicands_right) >= greatest_product
+#   #3 Missing notes on another side
+#   elsif x2 >= array.length - (n-1)
+#     multiplicands_left << array[y][x2]
+#     while multiplicands_left.length != 4
+#       x2 -= 1
+#       multiplicands_left << array[y][x2]
+#     end
+#     greatest_product = product(multiplicands_left) if product(multiplicands_left) >= greatest_product
+#     greatest_product_multiplicands = multiplicands_left if product(multiplicands_left) >= greatest_product
+#     #4 Nodes available on both sides
+#   else
+#     multiplicands_right << array[y][x3]
+#     while multiplicands_right.length != 4
+#       x3 += 1
+#       multiplicands_right << array[y][x3]
+#     end
+#     greatest_product = product(multiplicands_right) if product(multiplicands_right) >= greatest_product
+#     greatest_product_multiplicands = multiplicands_right if product(multiplicands_right) >= greatest_product
+#     multiplicands_left << array[y][x4]
+#     while multiplicands_left.length != 4
+#       x4 -= 1
+#       multiplicands_left << array[y][x4]
+#     end
+#     greatest_product = product(multiplicands_left) if product(multiplicands_left) >= greatest_product
+#     greatest_product_multiplicands = multiplicands_left if product(multiplicands_left) >= greatest_product
+#     # Return desired data
+#     [greatest_product, node, greatest_product_multiplicands]
+#   end
+# end
 
 # def check_asc_diag(n, node, array)
 # end
@@ -128,4 +173,4 @@ end
 # def check_desc_diag(n, node, array)
 # end
 
-greatest_product_in_grid(4, grid)
+a = check_vertical(4, [18, 0], grid)
