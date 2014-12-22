@@ -28,7 +28,6 @@ def product(array)
 end
 
 def greatest_product_in_grid(n, array)
-
   x = 0
   y = 0
   max = 0
@@ -40,7 +39,6 @@ def greatest_product_in_grid(n, array)
       # horiz = check_horizontal(n, node, array)
       #asc = check_asc_diag(n, node, array)
       #desc = check_desc_diag(n, node, array)
-
       if vert[0] > max
         solution = vert
       end
@@ -74,16 +72,12 @@ def check_vertical(n, node, array)
   y3 = y
   y4 = y
   #2 Missing nodes up
-  binding.pry
-
   if y1 < (n-1)
     multiplicands_up << array[y1][x]
     while multiplicands_up.length < 4
       y1 += 1
       multiplicands_up << array[y1][x]
-
     end
-
     greatest_product = product(multiplicands_up) if product(multiplicands_up) >= greatest_product
     greatest_product_multiplicands = multiplicands_up if product(multiplicands_up) >= greatest_product
   #3 Missing notes up
@@ -173,4 +167,5 @@ end
 # def check_desc_diag(n, node, array)
 # end
 
-a = check_vertical(4, [18, 0], grid)
+
+binding.pry
